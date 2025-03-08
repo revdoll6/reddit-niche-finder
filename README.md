@@ -84,19 +84,9 @@ A web application that helps users discover and analyze niche subreddit communit
 
 ## Test Accounts
 
-The seeder creates the following test accounts:
+The database seeder will create test accounts for development purposes. Check the `database/seeders/UsersTableSeeder.php` file for details.
 
-- Regular User:
-  - Email: test@example.com
-  - Password: password
-
-- Admin User:
-  - Email: admin@example.com
-  - Password: admin123
-
-- Marketing User:
-  - Email: marketing@example.com
-  - Password: marketing123
+Note: For security reasons, please change these credentials in production.
 
 ## License
 
