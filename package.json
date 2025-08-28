@@ -15,5 +15,11 @@
         "vite": "^5.0.0",
         "vue": "^3.4.0",
         "vue-router": "^4.0.13"
+    },
+    "dependencies": {
+        "@tensorflow/tfjs": "^4.22.0",
+        "natural": "^8.0.1",
+        "pinia": "^3.0.1",
+        "vue-toast-notification": "^3.1.3"
     }
 }

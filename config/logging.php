@@ -65,6 +65,20 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'search' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/search.log'),
+            'level' => 'debug',
+            'replace_placeholders' => true,
+        ],
+
+        'opportunity' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/opportunity_metrics.log'),
+            'level' => 'debug',
+            'replace_placeholders' => true,
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),

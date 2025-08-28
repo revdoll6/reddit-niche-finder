@@ -61,61 +61,27 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../stores/auth';
 
 const router = useRouter();
-const error = ref('');
-const loading = ref(false);
+const authStore = useAuthStore();
+const loading = computed(() => authStore.loading);
+const error = computed(() => authStore.error);
 const form = reactive({
   email: '',
   password: '',
 });
 
-const getCsrfToken = async () => {
-  try {
-    await fetch('/sanctum/csrf-cookie', {
-      credentials: 'include'
-    });
-  } catch (e) {
-    console.error('Failed to fetch CSRF token:', e);
-  }
-};
-
 const handleLogin = async () => {
   try {
-    loading.value = true;
-    error.value = '';
+    await authStore.login(form);
     
-    await getCsrfToken();
-    
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-XSRF-TOKEN': decodeURIComponent(document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1] || ''),
-      },
-      credentials: 'include',
-      body: JSON.stringify(form),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Login failed');
-    }
-
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    
+    // Redirect to dashboard on successful login
     router.push('/dashboard');
-  } catch (e) {
-    error.value = e.message || 'Failed to connect to the server';
-  } finally {
-    loading.value = false;
+  } catch (error) {
+    console.error('Login error:', error);
   }
 };
-
-onMounted(getCsrfToken);
 </script> 

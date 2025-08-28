@@ -83,12 +83,14 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../stores/auth';
 
 const router = useRouter();
-const error = ref('');
-const loading = ref(false);
+const authStore = useAuthStore();
+const loading = computed(() => authStore.loading);
+const error = computed(() => authStore.error);
 const form = reactive({
   name: '',
   email: '',
@@ -98,31 +100,12 @@ const form = reactive({
 
 const handleRegister = async () => {
   try {
-    loading.value = true;
-    error.value = '';
+    await authStore.register(form);
     
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Registration failed');
-    }
-
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    
+    // Redirect to dashboard on successful registration
     router.push('/dashboard');
-  } catch (e) {
-    error.value = e.message;
-  } finally {
-    loading.value = false;
+  } catch (error) {
+    console.error('Registration error:', error);
   }
 };
 </script> 

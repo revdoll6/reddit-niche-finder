@@ -60,4 +60,54 @@ class User extends Authenticatable
             ->withPivot('is_favorite')
             ->withTimestamps();
     }
+    
+    /**
+     * Get the API credentials for the user.
+     */
+    public function apiCredentials()
+    {
+        return $this->hasMany(ApiCredential::class);
+    }
+    
+    /**
+     * Get the Reddit API credentials for the user.
+     */
+    public function redditCredentials()
+    {
+        return $this->hasOne(ApiCredential::class)
+            ->where('provider', 'reddit');
+    }
+    
+    /**
+     * Get the API keys for the user.
+     */
+    public function apiKeys()
+    {
+        return $this->hasMany(ApiKey::class);
+    }
+    
+    /**
+     * Get the API rate limits for the user.
+     */
+    public function apiRateLimits()
+    {
+        return $this->hasMany(ApiRateLimit::class);
+    }
+    
+    /**
+     * Get the Reddit API rate limits for the user.
+     */
+    public function redditRateLimits()
+    {
+        return $this->hasOne(ApiRateLimit::class)
+            ->where('provider', 'reddit');
+    }
+
+    /**
+     * Get the audiences for the user.
+     */
+    public function audiences()
+    {
+        return $this->hasMany(Audience::class);
+    }
 }

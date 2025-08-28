@@ -109,4 +109,21 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Queue Names
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define the queue names for your application. This allows you
+    | to specify which queue worker should process which jobs.
+    |
+    */
+
+    'queues' => [
+        'high' => ['connection' => 'database', 'queue' => 'high'],
+        'default' => ['connection' => 'database', 'queue' => 'default'],
+        'posts' => ['connection' => 'database', 'queue' => 'posts'],
+        'low' => ['connection' => 'database', 'queue' => 'low'],
+    ],
+
 ];
